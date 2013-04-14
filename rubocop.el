@@ -50,7 +50,7 @@
   "A list of files considered to mark the root of a project.")
 
 (defun rubocop-project-root ()
-  "Retrieves the root directory of a project if available.
+  "Retrieve the root directory of a project if available.
 The current directory is assumed to be the project's root otherwise."
   (or (->> rubocop-project-root-files
         (--map (locate-dominating-file default-directory it))
@@ -65,11 +65,20 @@ The current directory is assumed to be the project's root otherwise."
 (defun rubocop-run-on-project ()
   "Run on current project."
   (interactive)
+  (rubocop-run-on-directory (rubocop-project-root)))
+
+(defun rubocop-run-on-directory (&optional directory)
+  "Run on DIRECTORY if present.
+Alternatively prompt user for directory."
+  (interactive)
   (rubocop-ensure-installed)
-  (compilation-start
-   (concat "rubocop -es " (rubocop-project-root))
-   'compilation-mode
-   (lambda (arg) (message arg) (rubocop-buffer-name (rubocop-project-root)))))
+  (let ((directory
+         (or directory
+             (read-directory-name "Select directory:"))))
+    (compilation-start
+     (concat "rubocop -es " directory)
+     'compilation-mode
+     (lambda (arg) (message arg) (rubocop-buffer-name directory)))))
 
 (defun rubocop-run-on-current-file ()
   "Run on current file."
