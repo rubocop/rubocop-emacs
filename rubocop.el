@@ -65,6 +65,7 @@ The current directory is assumed to be the project's root otherwise."
 (defun rubocop-run-on-project ()
   "Run on current project."
   (interactive)
+  (rubocop-ensure-installed)
   (compilation-start
    (concat "rubocop -es " (rubocop-project-root))
    'compilation-mode
@@ -73,6 +74,7 @@ The current directory is assumed to be the project's root otherwise."
 (defun rubocop-run-on-current-file ()
   "Run on current file."
   (interactive)
+  (rubocop-ensure-installed)
   (let ((file-name (buffer-file-name (current-buffer))))
     (if file-name
         (compilation-start
@@ -80,6 +82,11 @@ The current directory is assumed to be the project's root otherwise."
          'compilation-mode
          (lambda (arg) (rubocop-buffer-name file-name)))
       (error "Buffer is not visiting a file"))))
+
+(defun rubocop-ensure-installed ()
+  "Check if RuboCop is installed."
+  (unless (executable-find "rubocop")
+    (error "RuboCop is not installed")))
 
 (provide 'rubocop)
 
