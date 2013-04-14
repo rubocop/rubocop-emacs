@@ -62,11 +62,13 @@ The current directory is assumed to be the project's root otherwise."
   "Generate a name for the RuboCop buffer from FILE-OR-DIR."
   (concat "*RuboCop " file-or-dir "*"))
 
+;;;###autoload
 (defun rubocop-run-on-project ()
   "Run on current project."
   (interactive)
   (rubocop-run-on-directory (rubocop-project-root)))
 
+;;;###autoload
 (defun rubocop-run-on-directory (&optional directory)
   "Run on DIRECTORY if present.
 Alternatively prompt user for directory."
@@ -80,6 +82,7 @@ Alternatively prompt user for directory."
      'compilation-mode
      (lambda (arg) (message arg) (rubocop-buffer-name directory)))))
 
+;;;###autoload
 (defun rubocop-run-on-current-file ()
   "Run on current file."
   (interactive)
