@@ -4,6 +4,8 @@ A simple Emacs interface for [RuboCop](https://github.com/bbatsov/rubocop).
 
 # Installation
 
+Please, note that the current version of `RuboCop.el` requires `RuboCop` 0.9.0 or later.
+
 ## Manual
 
 Just drop `rubocop.el` and `dash.el`. somewhere in your `load-path`. I
