@@ -90,7 +90,7 @@ Alternatively prompt user for directory."
   (let ((file-name (buffer-file-name (current-buffer))))
     (if file-name
         (compilation-start
-         (concat "rubocop -es " file-name)
+         (concat "rubocop --format emacs " file-name)
          'compilation-mode
          (lambda (arg) (rubocop-buffer-name file-name)))
       (error "Buffer is not visiting a file"))))
