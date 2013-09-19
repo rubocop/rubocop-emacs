@@ -36,7 +36,7 @@ action.
 # Usage
 
 Command                                         | Description                                             | RuboCop mode binding
-------------------------------------------------|------------------------------------------------------------------------------
+------------------------------------------------|---------------------------------------------------------|--------------------
 <kbd>M-x rubocop-check-project</kbd>            | Runs RuboCop on the entire project                      | `C-c C-r p`
 <kbd>M-x rubocop-check-directory</kbd>          | Prompts from a directory on which to run RuboCop        | `C-c C-r d`
 <kbd>M-x rubocop-check-current-file</kbd>       | Runs RuboCop on the currently visited file              | `C-c C-r f`
