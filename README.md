@@ -35,11 +35,21 @@ action.
 
 # Usage
 
-<kbd>M-x rubocop-run-on-project</kbd>
+Command                                         | Description                                             | RuboCop mode binding
+------------------------------------------------|------------------------------------------------------------------------------
+<kbd>M-x rubocop-check-project</kbd>            | Runs RuboCop on the entire project                      | `C-c C-r p`
+<kbd>M-x rubocop-check-directory</kbd>          | Prompts from a directory on which to run RuboCop        | `C-c C-r d`
+<kbd>M-x rubocop-check-current-file</kbd>       | Runs RuboCop on the currently visited file              | `C-c C-r f`
+<kbd>M-x rubocop-autocorrect-project</kbd>      | Runs auto-correct on the entire project                 | `C-c C-r P`
+<kbd>M-x rubocop-autocorrect-directory</kbd>    | Prompts for a directory on which to run auto-correct    | `C-c C-r D`
+<kbd>M-x rubocop-autocorrect-current-file</kbd> | Runs auto-correct on the currently visited file.        | `C-c C-r F`
 
-<kbd>M-x rubocop-run-on-directory</kbd>
 
-<kbd>M-x rubocop-run-on-current-file</kbd>
+If you use them often you might want to enable `rubocop-mode` which will added some keybindings for them:
+
+```lisp
+(add-hook 'ruby-mode 'rubocop-mode)
+```
 
 # Known issues
 

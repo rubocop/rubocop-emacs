@@ -45,6 +45,19 @@
   '(".projectile" ".git" ".hg" ".bzr" "_darcs" "Gemfile")
   "A list of files considered to mark the root of a project.")
 
+(defvar rubocop-check-command
+  "rubocop --format emacs"
+  "The command used to run RuboCop checks.")
+
+(defvar rubocop-autocorrect-command
+  "rubocop -a --format emacs"
+  "The command used to run RuboCop's autocorrection.")
+
+(defcustom rubocop-keymap-prefix (kbd "C-c C-r")
+  "RuboCop keymap prefix."
+  :group 'rubocop
+  :type 'string)
+
 (defun rubocop-project-root ()
   "Retrieve the root directory of a project if available.
 The current directory is assumed to be the project's root otherwise."
@@ -58,43 +71,95 @@ The current directory is assumed to be the project's root otherwise."
   "Generate a name for the RuboCop buffer from FILE-OR-DIR."
   (concat "*RuboCop " file-or-dir "*"))
 
-;;;###autoload
-(defun rubocop-run-on-project ()
-  "Run on current project."
-  (interactive)
-  (rubocop-run-on-directory (rubocop-project-root)))
-
-;;;###autoload
-(defun rubocop-run-on-directory (&optional directory)
-  "Run on DIRECTORY if present.
+(defun rubocop--dir-command (command &optional directory)
+  "Run COMMAND on DIRECTORY (if present).
 Alternatively prompt user for directory."
-  (interactive)
   (rubocop-ensure-installed)
   (let ((directory
          (or directory
              (read-directory-name "Select directory:"))))
     (compilation-start
-     (concat "rubocop --format emacs " directory)
+     (concat command " " directory)
      'compilation-mode
      (lambda (arg) (message arg) (rubocop-buffer-name directory)))))
 
 ;;;###autoload
-(defun rubocop-run-on-current-file ()
-  "Run on current file."
+(defun rubocop-check-project ()
+  "Run on current project."
   (interactive)
+  (rubocop-check-directory (rubocop-project-root)))
+
+;;;###autoload
+(defun rubocop-autocorrect-project ()
+  "Run on current project."
+  (interactive)
+  (rubocop-autocorrect-directory (rubocop-project-root)))
+
+;;;###autoload
+(defun rubocop-check-directory (&optional directory)
+  "Run on DIRECTORY if present.
+Alternatively prompt user for directory."
+  (interactive)
+  (rubocop--dir-command rubocop-check-command directory))
+
+;;;###autoload
+(defun rubocop-autocorrect-directory (&optional directory)
+  "Run on DIRECTORY if present.
+Alternatively prompt user for directory."
+  (interactive)
+  (rubocop--dir-command rubocop-autocorrect-command directory))
+
+(defun rubocop--file-command (command)
+  "Run COMMAND on currently visited file."
   (rubocop-ensure-installed)
   (let ((file-name (buffer-file-name (current-buffer))))
     (if file-name
         (compilation-start
-         (concat "rubocop --format emacs " file-name)
+         (concat command " " file-name)
          'compilation-mode
          (lambda (arg) (rubocop-buffer-name file-name)))
       (error "Buffer is not visiting a file"))))
+
+;;;###autoload
+(defun rubocop-check-current-file ()
+  "Run on current file."
+  (interactive)
+  (rubocop--file-command rubocop-check-command))
+
+;;;###autoload
+(defun rubocop-autocorrect-current-file ()
+  "Run on current file."
+  (interactive)
+  (rubocop--file-command rubocop-autocorrect-command))
 
 (defun rubocop-ensure-installed ()
   "Check if RuboCop is installed."
   (unless (executable-find "rubocop")
     (error "RuboCop is not installed")))
+
+;;; Minor mode
+(defvar rubocop-mode-map
+  (let ((map (make-sparse-keymap)))
+    (let ((prefix-map (make-sparse-keymap)))
+      (define-key prefix-map (kbd "p") 'rubocop-check-project)
+      (define-key prefix-map (kbd "d") 'rubocop-check-directory)
+      (define-key prefix-map (kbd "f") 'rubocop-check-current-file)
+      (define-key prefix-map (kbd "P") 'rubocop-autocorrect-file)
+      (define-key prefix-map (kbd "D") 'rubocop-autocorrect-directory)
+      (define-key prefix-map (kbd "F") 'rubocop-autocorrect-current-file)
+
+      (define-key map rubocop-keymap-prefix prefix-map))
+    map)
+  "Keymap for RuboCop mode.")
+
+;;;###autoload
+(define-minor-mode rubocop-mode
+  "Minor mode to assist project management and navigation.
+
+\\{projectile-mode-map}"
+  :lighter " RuboCop"
+  :keymap rubocop-mode-map
+  :group 'rubocop)
 
 (provide 'rubocop)
 
