@@ -4,7 +4,7 @@
 
 ;; Author: Bozhidar Batsov
 ;; URL: https://github.com/bbatsov/rubocop-emacs
-;; Version: 0.2
+;; Version: 0.3
 ;; Keywords: project, convenience
 ;; Package-Requires: ((dash "1.0.0"))
 
