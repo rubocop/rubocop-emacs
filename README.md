@@ -48,7 +48,7 @@ Command                                         | Description                   
 If you use them often you might want to enable `rubocop-mode` which will added some keybindings for them:
 
 ```lisp
-(add-hook 'ruby-mode 'rubocop-mode)
+(add-hook 'ruby-mode-hook 'rubocop-mode)
 ```
 
 # Known issues
