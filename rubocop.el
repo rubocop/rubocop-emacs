@@ -154,9 +154,7 @@ Alternatively prompt user for directory."
 
 ;;;###autoload
 (define-minor-mode rubocop-mode
-  "Minor mode to assist project management and navigation.
-
-\\{projectile-mode-map}"
+  "Minor mode to interface with RuboCop."
   :lighter " RuboCop"
   :keymap rubocop-mode-map
   :group 'rubocop)
