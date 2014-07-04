@@ -12,7 +12,7 @@ Just drop `rubocop.el` and `dash.el`. somewhere in your `load-path`. I
 favour the folder `~/.emacs.d/vendor`:
 
 ```lisp
-(add-to-list 'load-path "~/emacs.d/vendor")
+(add-to-list 'load-path "~/.emacs.d/vendor")
 (require 'rubocop)
 ```
 
