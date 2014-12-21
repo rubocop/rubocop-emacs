@@ -1,4 +1,4 @@
-;;; rubocop.el --- An Emacs interface for RuboCop
+;;; rubocop.el --- An Emacs interface for RuboCop -*- lexical-binding: t -*-
 
 ;; Copyright © 2011-2013 Bozhidar Batsov
 
@@ -6,7 +6,7 @@
 ;; URL: https://github.com/bbatsov/rubocop-emacs
 ;; Version: 0.3
 ;; Keywords: project, convenience
-;; Package-Requires: ((dash "1.0.0"))
+;; Package-Requires: ((dash "1.0.0") (emacs "24"))
 
 ;; This file is NOT part of GNU Emacs.
 
