@@ -58,6 +58,13 @@
   :group 'rubocop
   :type 'string)
 
+(defun rubocop-local-file-name (file-name)
+  "Retrieve local filename if FILE-NAME is opened via TRAMP."
+  (cond ((tramp-tramp-file-p file-name)
+         (tramp-file-name-localname (tramp-dissect-file-name file-name)))
+        (t
+         file-name)))
+
 (defun rubocop-project-root ()
   "Retrieve the root directory of a project if available.
 The current directory is assumed to be the project's root otherwise."
@@ -79,7 +86,7 @@ Alternatively prompt user for directory."
          (or directory
              (read-directory-name "Select directory:"))))
     (compilation-start
-     (concat command " " directory)
+     (concat command " " (rubocop-local-file-name directory))
      'compilation-mode
      (lambda (arg) (message arg) (rubocop-buffer-name directory)))))
 
@@ -115,7 +122,7 @@ Alternatively prompt user for directory."
   (let ((file-name (buffer-file-name (current-buffer))))
     (if file-name
         (compilation-start
-         (concat command " " file-name)
+         (concat command " " (rubocop-local-file-name file-name))
          'compilation-mode
          (lambda (arg) (rubocop-buffer-name file-name)))
       (error "Buffer is not visiting a file"))))
