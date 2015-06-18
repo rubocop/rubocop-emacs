@@ -35,6 +35,7 @@
 ;;; Code:
 
 (require 'dash)
+(require 'tramp)
 
 (defgroup rubocop nil
   "An Emacs interface for RuboCop."
