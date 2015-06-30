@@ -152,7 +152,7 @@ Alternatively prompt user for directory."
       (define-key prefix-map (kbd "p") 'rubocop-check-project)
       (define-key prefix-map (kbd "d") 'rubocop-check-directory)
       (define-key prefix-map (kbd "f") 'rubocop-check-current-file)
-      (define-key prefix-map (kbd "P") 'rubocop-autocorrect-file)
+      (define-key prefix-map (kbd "P") 'rubocop-autocorrect-project)
       (define-key prefix-map (kbd "D") 'rubocop-autocorrect-directory)
       (define-key prefix-map (kbd "F") 'rubocop-autocorrect-current-file)
 
