@@ -1,12 +1,12 @@
-# Synopsis
+## Synopsis
 
 A simple Emacs interface for [RuboCop](https://github.com/bbatsov/rubocop).
 
-# Installation
+## Installation
 
 Please, note that the current version of `RuboCop.el` requires `RuboCop` 0.9.0 or later.
 
-## Manual
+### Manual
 
 Just drop `rubocop.el` and `dash.el`. somewhere in your `load-path`. I
 favour the folder `~/.emacs.d/vendor`:
@@ -16,24 +16,20 @@ favour the folder `~/.emacs.d/vendor`:
 (require 'rubocop)
 ```
 
-## Marmalade
+### MELPA
 
 If you're an Emacs 24 user or you have a recent version of package.el
-you can install rubocop.el from the [Marmalade](http://marmalade-repo.org/) repository.
+you can install rubocop.el from the [MELPA](http://melpa.org/) and
+[MELPA Stable](http://stable.melpa.org/) repositories.
 
-## MELPA
+### Emacs Prelude
 
-If you're an Emacs 24 user or you have a recent version of package.el
-you can install rubocop.el from the [MELPA](http://melpa.milkbox.net/) repository.
-
-## Emacs Prelude
-
-`rubocop.el` is naturally part of the
+`rubocop.el` is naturally part of
 [Emacs Prelude](https://github.com/bbatsov/prelude). If you're a Prelude
 user - `rubocop.el` is already properly configured and ready for
 action.
 
-# Usage
+## Usage
 
 Command                                         | Description                                             | RuboCop mode binding
 ------------------------------------------------|---------------------------------------------------------|--------------------
@@ -48,22 +44,22 @@ Command                                         | Description                   
 If you use them often you might want to enable `rubocop-mode` which will added some keybindings for them:
 
 ```lisp
-(add-hook 'ruby-mode-hook 'rubocop-mode)
+(add-hook 'ruby-mode-hook #'rubocop-mode)
 ```
 
-# Known issues
+## Known issues
 
 Check out the project's
 [issue list](https://github.com/bbatsov/rubocop-emacs/issues?sort=created&direction=desc&state=open)
 a list of unresolved issues. By the way - feel free to fix any of them
 and send me a pull request. :-)
 
-# Contributors
+## Contributors
 
 Here's a [list](https://github.com/bbatsov/rubocop-emacs/contributors) of all the people who have contributed to the
 development of rubocop.el.
 
-# Bugs & Improvements
+## Bugs & Improvements
 
 Bug reports and suggestions for improvements are always
 welcome. GitHub pull requests are even better! :-)
