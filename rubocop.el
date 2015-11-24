@@ -125,7 +125,7 @@ Alternatively prompt user for directory."
         (compilation-start
          (concat command " " (rubocop-local-file-name file-name))
          'compilation-mode
-         (lambda (arg) (rubocop-buffer-name file-name)))
+         (lambda (_arg) (rubocop-buffer-name file-name)))
       (error "Buffer is not visiting a file"))))
 
 ;;;###autoload
