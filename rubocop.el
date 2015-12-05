@@ -140,9 +140,17 @@ Alternatively prompt user for directory."
   (interactive)
   (rubocop--file-command rubocop-autocorrect-command))
 
+(defun rubocop-bundled-p ()
+  "Check if rubocop has been bundled."
+  (let ((gemfile-lock (expand-file-name "Gemfile.lock" (rubocop-project-root))))
+    (when (file-exists-p gemfile-lock)
+      (with-temp-buffer
+        (insert-file-contents gemfile-lock)
+        (re-search-forward "rubocop" nil t)))))
+
 (defun rubocop-ensure-installed ()
   "Check if RuboCop is installed."
-  (unless (executable-find "rubocop")
+  (unless (or (executable-find "rubocop") (rubocop-bundled-p))
     (error "RuboCop is not installed")))
 
 ;;; Minor mode
