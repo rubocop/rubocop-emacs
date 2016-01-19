@@ -79,6 +79,10 @@ The current directory is assumed to be the project's root otherwise."
   "Generate a name for the RuboCop buffer from FILE-OR-DIR."
   (concat "*RuboCop " file-or-dir "*"))
 
+(defun rubocop-build-command (command path)
+  "Compose the full command to be run, prefixing with `bundle exec` if rubocop is bundled"
+  (concat (if (rubocop-bundled-p) "bundle exec " "") command " " path))
+
 (defun rubocop--dir-command (command &optional directory)
   "Run COMMAND on DIRECTORY (if present).
 Alternatively prompt user for directory."
@@ -87,7 +91,7 @@ Alternatively prompt user for directory."
          (or directory
              (read-directory-name "Select directory:"))))
     (compilation-start
-     (concat command " " (rubocop-local-file-name directory))
+     (rubocop-build-command command (rubocop-local-file-name directory))
      'compilation-mode
      (lambda (arg) (message arg) (rubocop-buffer-name directory)))))
 
@@ -123,7 +127,7 @@ Alternatively prompt user for directory."
   (let ((file-name (buffer-file-name (current-buffer))))
     (if file-name
         (compilation-start
-         (concat command " " (rubocop-local-file-name file-name))
+         (rubocop-build-command command (rubocop-local-file-name file-name))
          'compilation-mode
          (lambda (_arg) (rubocop-buffer-name file-name)))
       (error "Buffer is not visiting a file"))))
