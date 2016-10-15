@@ -149,12 +149,12 @@ Alternatively prompt user for directory."
 (defvar rubocop-mode-map
   (let ((map (make-sparse-keymap)))
     (let ((prefix-map (make-sparse-keymap)))
-      (define-key prefix-map (kbd "p") 'rubocop-check-project)
-      (define-key prefix-map (kbd "d") 'rubocop-check-directory)
-      (define-key prefix-map (kbd "f") 'rubocop-check-current-file)
-      (define-key prefix-map (kbd "P") 'rubocop-autocorrect-project)
-      (define-key prefix-map (kbd "D") 'rubocop-autocorrect-directory)
-      (define-key prefix-map (kbd "F") 'rubocop-autocorrect-current-file)
+      (define-key prefix-map (kbd "p") #'rubocop-check-project)
+      (define-key prefix-map (kbd "d") #'rubocop-check-directory)
+      (define-key prefix-map (kbd "f") #'rubocop-check-current-file)
+      (define-key prefix-map (kbd "P") #'rubocop-autocorrect-project)
+      (define-key prefix-map (kbd "D") #'rubocop-autocorrect-directory)
+      (define-key prefix-map (kbd "F") #'rubocop-autocorrect-current-file)
 
       (define-key map rubocop-keymap-prefix prefix-map))
     map)
