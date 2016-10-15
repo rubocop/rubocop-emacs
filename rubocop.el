@@ -29,7 +29,7 @@
 
 ;;; Commentary:
 ;;
-;; This library allows the user to easily invoke rubocop to get feedback
+;; This library allows the user to easily invoke RuboCop to get feedback
 ;; about stylistic issues in Ruby code.
 ;;
 ;;; Code:
@@ -93,26 +93,26 @@ Alternatively prompt user for directory."
 
 ;;;###autoload
 (defun rubocop-check-project ()
-  "Run on current project."
+  "Run check on current project."
   (interactive)
   (rubocop-check-directory (rubocop-project-root)))
 
 ;;;###autoload
 (defun rubocop-autocorrect-project ()
-  "Run on current project."
+  "Run autocorrect on current project."
   (interactive)
   (rubocop-autocorrect-directory (rubocop-project-root)))
 
 ;;;###autoload
 (defun rubocop-check-directory (&optional directory)
-  "Run on DIRECTORY if present.
+  "Run check on DIRECTORY if present.
 Alternatively prompt user for directory."
   (interactive)
   (rubocop--dir-command rubocop-check-command directory))
 
 ;;;###autoload
 (defun rubocop-autocorrect-directory (&optional directory)
-  "Run on DIRECTORY if present.
+  "Run autocorrect on DIRECTORY if present.
 Alternatively prompt user for directory."
   (interactive)
   (rubocop--dir-command rubocop-autocorrect-command directory))
@@ -130,13 +130,13 @@ Alternatively prompt user for directory."
 
 ;;;###autoload
 (defun rubocop-check-current-file ()
-  "Run on current file."
+  "Run check on current file."
   (interactive)
   (rubocop--file-command rubocop-check-command))
 
 ;;;###autoload
 (defun rubocop-autocorrect-current-file ()
-  "Run on current file."
+  "Run autocorrect on current file."
   (interactive)
   (rubocop--file-command rubocop-autocorrect-command))
 
