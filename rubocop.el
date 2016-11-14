@@ -72,6 +72,7 @@ The current directory is assumed to be the project's root otherwise."
   (or (->> rubocop-project-root-files
         (--map (locate-dominating-file default-directory it))
         (-remove #'null)
+	(--map (expand-file-name it))
         (car))
       (error "You're not into a project")))
 
