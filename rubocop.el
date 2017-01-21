@@ -66,8 +66,7 @@
          file-name)))
 
 (defun rubocop-project-root ()
-  "Retrieve the root directory of a project if available.
-The current directory is assumed to be the project's root otherwise."
+  "Retrieve the root directory of a project if available."
   (or
    (car
     (mapcar #'expand-file-name
