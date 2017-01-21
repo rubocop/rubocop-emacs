@@ -91,7 +91,7 @@ Alternatively prompt user for directory."
   (rubocop-ensure-installed)
   (let ((directory
          (or directory
-             (read-directory-name "Select directory:"))))
+             (read-directory-name "Select directory: "))))
     (compilation-start
      (rubocop-build-command command (rubocop-local-file-name directory))
      'compilation-mode
