@@ -6,7 +6,7 @@
 ;; URL: https://github.com/bbatsov/rubocop-emacs
 ;; Version: 0.4.0
 ;; Keywords: project, convenience
-;; Package-Requires: ((dash "1.0.0") (emacs "24"))
+;; Package-Requires: ((emacs "24"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -34,7 +34,6 @@
 ;;
 ;;; Code:
 
-(require 'dash)
 (require 'tramp)
 
 (defgroup rubocop nil
@@ -69,12 +68,14 @@
 (defun rubocop-project-root ()
   "Retrieve the root directory of a project if available.
 The current directory is assumed to be the project's root otherwise."
-  (or (->> rubocop-project-root-files
-        (--map (locate-dominating-file default-directory it))
-        (-remove #'null)
-	(--map (expand-file-name it))
-        (car))
-      (error "You're not into a project")))
+  (or
+   (car
+    (mapcar #'expand-file-name
+            (delq nil
+                  (mapcar
+                   (lambda (f) (locate-dominating-file default-directory f))
+                   rubocop-project-root-files))))
+   (error "You're not into a project")))
 
 (defun rubocop-buffer-name (file-or-dir)
   "Generate a name for the RuboCop buffer from FILE-OR-DIR."
