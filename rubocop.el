@@ -39,19 +39,24 @@
 (defgroup rubocop nil
   "An Emacs interface for RuboCop."
   :group 'tools
-  :group 'convenience)
+  :group 'convenience
+  :prefix "rubocop-"
+  :link '(url-link :tag "GitHub" "https://github.com/bbatsov/rubocop-emacs"))
 
-(defvar rubocop-project-root-files
+(defcustom rubocop-project-root-files
   '(".projectile" ".git" ".hg" ".bzr" "_darcs" "Gemfile")
-  "A list of files considered to mark the root of a project.")
+  "A list of files considered to mark the root of a project."
+  :type '(repeat string))
 
-(defvar rubocop-check-command
+(defcustom rubocop-check-command
   "rubocop --format emacs"
-  "The command used to run RuboCop checks.")
+  "The command used to run RuboCop checks."
+  :type 'string)
 
-(defvar rubocop-autocorrect-command
+(defcustom rubocop-autocorrect-command
   "rubocop -a --format emacs"
-  "The command used to run RuboCop's autocorrection.")
+  "The command used to run RuboCop's autocorrection."
+  :type 'string)
 
 (defcustom rubocop-keymap-prefix (kbd "C-c C-r")
   "RuboCop keymap prefix."
