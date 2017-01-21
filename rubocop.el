@@ -1,6 +1,6 @@
 ;;; rubocop.el --- An Emacs interface for RuboCop -*- lexical-binding: t -*-
 
-;; Copyright © 2011-2016 Bozhidar Batsov
+;; Copyright © 2011-2017 Bozhidar Batsov
 
 ;; Author: Bozhidar Batsov
 ;; URL: https://github.com/bbatsov/rubocop-emacs
