@@ -82,7 +82,8 @@ The current directory is assumed to be the project's root otherwise."
   (concat "*RuboCop " file-or-dir "*"))
 
 (defun rubocop-build-command (command path)
-  "Compose the full command to be run, prefixing with `bundle exec` if rubocop is bundled"
+  "Build the full command to be run based on COMMAND and PATH.
+The command will be prefixed with `bundle exec` if RuboCop is bundled."
   (concat (if (rubocop-bundled-p) "bundle exec " "") command " " path))
 
 (defun rubocop--dir-command (command &optional directory)
