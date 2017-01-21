@@ -160,7 +160,7 @@ Alternatively prompt user for directory."
   (rubocop--file-command rubocop-autocorrect-command))
 
 (defun rubocop-bundled-p ()
-  "Check if rubocop has been bundled."
+  "Check if RuboCop has been bundled."
   (let ((gemfile-lock (expand-file-name "Gemfile.lock" (rubocop-project-root))))
     (when (file-exists-p gemfile-lock)
       (with-temp-buffer
