@@ -58,6 +58,11 @@
   "The command used to run RuboCop's autocorrection."
   :type 'string)
 
+(defcustom rubocop-extensions
+  '()
+  "A list of extensions to be loaded by RuboCop."
+  :type '(repeat string))
+
 (defcustom rubocop-keymap-prefix (kbd "C-c C-r")
   "RuboCop keymap prefix."
   :group 'rubocop
@@ -89,10 +94,27 @@ When NO-ERROR is non-nil returns nil instead of raise an error."
   "Generate a name for the RuboCop buffer from FILE-OR-DIR."
   (concat "*RuboCop " file-or-dir "*"))
 
+(defun rubocop-build-requires ()
+  "Build RuboCop requires from `rubocop-extensions'."
+  (if rubocop-extensions
+      (concat
+       (mapconcat
+        (lambda (ext)
+          (format "--require %s" ext))
+        rubocop-extensions
+        " ")
+       " ")
+    ""))
+
 (defun rubocop-build-command (command path)
   "Build the full command to be run based on COMMAND and PATH.
 The command will be prefixed with `bundle exec` if RuboCop is bundled."
-  (concat (if (rubocop-bundled-p) "bundle exec " "") command " " path))
+  (concat
+   (if (rubocop-bundled-p) "bundle exec " "")
+   command
+   (rubocop-build-requires)
+   " "
+   path))
 
 (defun rubocop--dir-command (command &optional directory)
   "Run COMMAND on DIRECTORY (if present).
