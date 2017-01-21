@@ -8,7 +8,7 @@ Please, note that the current version of `RuboCop.el` requires `RuboCop` 0.9.0 o
 
 ### Manual
 
-Just drop `rubocop.el` and `dash.el`. somewhere in your `load-path`. I
+Just drop `rubocop.el` somewhere in your `load-path`. I
 favour the folder `~/.emacs.d/vendor`:
 
 ```lisp
