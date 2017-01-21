@@ -70,8 +70,10 @@
         (t
          file-name)))
 
-(defun rubocop-project-root ()
-  "Retrieve the root directory of a project if available."
+(defun rubocop-project-root (&optional no-error)
+  "Retrieve the root directory of a project if available.
+
+When NO-ERROR is non-nil returns nil instead of raise an error."
   (or
    (car
     (mapcar #'expand-file-name
@@ -79,7 +81,9 @@
                   (mapcar
                    (lambda (f) (locate-dominating-file default-directory f))
                    rubocop-project-root-files))))
-   (error "You're not into a project")))
+   (if no-error
+       nil
+     (error "You're not into a project"))))
 
 (defun rubocop-buffer-name (file-or-dir)
   "Generate a name for the RuboCop buffer from FILE-OR-DIR."
@@ -97,10 +101,12 @@ Alternatively prompt user for directory."
   (let ((directory
          (or directory
              (read-directory-name "Select directory: "))))
-    (compilation-start
-     (rubocop-build-command command (rubocop-local-file-name directory))
-     'compilation-mode
-     (lambda (arg) (message arg) (rubocop-buffer-name directory)))))
+    ;; make sure we run RuboCop from a project's root if the command is executed within a project
+    (let ((default-directory (or (rubocop-project-root 'no-error) default-directory)))
+      (compilation-start
+       (rubocop-build-command command (rubocop-local-file-name directory))
+       'compilation-mode
+       (lambda (arg) (message arg) (rubocop-buffer-name directory))))))
 
 ;;;###autoload
 (defun rubocop-check-project ()
@@ -133,10 +139,12 @@ Alternatively prompt user for directory."
   (rubocop-ensure-installed)
   (let ((file-name (buffer-file-name (current-buffer))))
     (if file-name
-        (compilation-start
-         (rubocop-build-command command (rubocop-local-file-name file-name))
-         'compilation-mode
-         (lambda (_arg) (rubocop-buffer-name file-name)))
+        ;; make sure we run RuboCop from a project's root if the command is executed within a project
+        (let ((default-directory (or (rubocop-project-root 'no-error) default-directory)))
+          (compilation-start
+           (rubocop-build-command command (rubocop-local-file-name file-name))
+           'compilation-mode
+           (lambda (_arg) (rubocop-buffer-name file-name))))
       (error "Buffer is not visiting a file"))))
 
 ;;;###autoload
