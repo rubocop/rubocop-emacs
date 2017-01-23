@@ -98,6 +98,7 @@ When NO-ERROR is non-nil returns nil instead of raise an error."
   "Build RuboCop requires from `rubocop-extensions'."
   (if rubocop-extensions
       (concat
+       " "
        (mapconcat
         (lambda (ext)
           (format "--require %s" ext))
