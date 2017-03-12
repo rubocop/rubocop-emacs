@@ -4,7 +4,7 @@
 
 ;; Author: Bozhidar Batsov
 ;; URL: https://github.com/bbatsov/rubocop-emacs
-;; Version: 0.5.0-cvs
+;; Version: 0.5.0
 ;; Keywords: project, convenience
 ;; Package-Requires: ((emacs "24"))
 
