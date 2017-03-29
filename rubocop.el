@@ -70,10 +70,10 @@
 
 (defun rubocop-local-file-name (file-name)
   "Retrieve local filename if FILE-NAME is opened via TRAMP."
-  (cond ((tramp-tramp-file-p file-name)
+  (cond ((eq system-type 'windows-nt) file-name)
+        ((tramp-tramp-file-p file-name)
          (tramp-file-name-localname (tramp-dissect-file-name file-name)))
-        (t
-         file-name)))
+        (t file-name)))
 
 (defun rubocop-project-root (&optional no-error)
   "Retrieve the root directory of a project if available.
