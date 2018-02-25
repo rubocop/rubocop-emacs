@@ -58,6 +58,11 @@
   "The command used to run RuboCop's autocorrection."
   :type 'string)
 
+(defcustom rubocop-config-file-names
+  '(".rubycop.yml" ".rubycop" "rubocop.yml" ".rubocop")
+  "A list of valid config file names"
+  :type '(repeat string))
+
 (defcustom rubocop-extensions
   '()
   "A list of extensions to be loaded by RuboCop."
@@ -90,6 +95,20 @@ When NO-ERROR is non-nil returns nil instead of raise an error."
        nil
      (error "You're not into a project"))))
 
+(defun rubocop-config-file ()
+  "Return full path to rubocop config file if found."
+  (car
+   (delq nil
+         (mapcar
+          (lambda (f)
+            (if (file-exists-p f)
+                f))
+          (let ((root (rubocop-project-root)))
+            (mapcar
+             (lambda (f)
+               (expand-file-name f root))
+             rubocop-config-file-names))))))
+
 (defun rubocop-buffer-name (file-or-dir)
   "Generate a name for the RuboCop buffer from FILE-OR-DIR."
   (concat "*RuboCop " file-or-dir "*"))
@@ -110,6 +129,10 @@ When NO-ERROR is non-nil returns nil instead of raise an error."
 (defun rubocop-build-command (command path)
   "Build the full command to be run based on COMMAND and PATH.
 The command will be prefixed with `bundle exec` if RuboCop is bundled."
+  (let ((cfile (rubocop-config-file)))
+    (setq command (if cfile
+                      (concat command " -c " cfile)
+                    command)))
   (concat
    (if (rubocop-bundled-p) "bundle exec " "")
    command
