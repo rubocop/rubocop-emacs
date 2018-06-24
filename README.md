@@ -1,6 +1,8 @@
+# RuboCop.el
+
 ## Synopsis
 
-A simple Emacs interface for [RuboCop](https://github.com/bbatsov/rubocop).
+A simple Emacs interface for [RuboCop](https://github.com/rubocop-hq/rubocop).
 
 ## Installation
 
@@ -50,14 +52,14 @@ If you use them often you might want to enable `rubocop-mode` which will added s
 ## Known issues
 
 Check out the project's
-[issue list](https://github.com/bbatsov/rubocop-emacs/issues?sort=created&direction=desc&state=open)
+[issue list](https://github.com/rubocop-hq/rubocop-emacs/issues?sort=created&direction=desc&state=open)
 a list of unresolved issues. By the way - feel free to fix any of them
 and send me a pull request. :-)
 
 ## Contributors
 
-Here's a [list](https://github.com/bbatsov/rubocop-emacs/contributors) of all the people who have contributed to the
-development of rubocop.el.
+Here's a [list](https://github.com/rubocop-hq/rubocop-emacs/contributors) of all the people who have contributed to the
+development of RuboCop.el.
 
 ## Bugs & Improvements
 
