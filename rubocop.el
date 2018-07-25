@@ -68,6 +68,11 @@
   :group 'rubocop
   :type 'string)
 
+(defcustom rubocop-autocorrect-on-save nil
+  "Runs `rubocop-autocorrect-current-file' automatically on save."
+  :group 'rubocop
+  :type 'boolean)
+
 (defcustom rubocop-prefer-system-executable nil
   "Runs rubocop with the system executable even if inside a bundled project."
   :group 'rubocop
@@ -187,6 +192,9 @@ Alternatively prompt user for directory."
   (interactive)
   (rubocop--file-command rubocop-autocorrect-command))
 
+(defun rubocop-autocorrect-current-file-silent ()
+  (save-window-excursion (rubocop-autocorrect-current-file)))
+
 (defun rubocop-bundled-p ()
   "Check if RuboCop has been bundled."
   (let ((gemfile-lock (expand-file-name "Gemfile.lock" (rubocop-project-root))))
@@ -220,7 +228,11 @@ Alternatively prompt user for directory."
   "Minor mode to interface with RuboCop."
   :lighter " RuboCop"
   :keymap rubocop-mode-map
-  :group 'rubocop)
+  :group 'rubocop
+  (when rubocop-autocorrect-on-save
+    (if rubocop-mode
+        (add-hook 'before-save-hook 'rubocop-autocorrect-current-file-silent nil t)
+      (remove-hook 'before-save-hook 'rubocop-autocorrect-current-file-silent t))))
 
 (provide 'rubocop)
 
