@@ -193,7 +193,8 @@ Alternatively prompt user for directory."
   (rubocop--file-command rubocop-autocorrect-command))
 
 (defun rubocop-autocorrect-current-file-silent ()
-  (save-window-excursion (rubocop-autocorrect-current-file)))
+  (if rubocop-autocorrect-on-save
+      (save-window-excursion (rubocop-autocorrect-current-file))))
 
 (defun rubocop-bundled-p ()
   "Check if RuboCop has been bundled."
@@ -229,10 +230,9 @@ Alternatively prompt user for directory."
   :lighter " RuboCop"
   :keymap rubocop-mode-map
   :group 'rubocop
-  (when rubocop-autocorrect-on-save
-    (if rubocop-mode
-        (add-hook 'before-save-hook 'rubocop-autocorrect-current-file-silent nil t)
-      (remove-hook 'before-save-hook 'rubocop-autocorrect-current-file-silent t))))
+  (cond
+   (rubocop-mode (add-hook 'before-save-hook 'rubocop-autocorrect-current-file-silent nil t))
+   (t (remove-hook 'before-save-hook 'rubocop-autocorrect-current-file-silent t))))
 
 (provide 'rubocop)
 
