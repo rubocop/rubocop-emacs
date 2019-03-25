@@ -68,6 +68,11 @@
   :group 'rubocop
   :type 'string)
 
+(defcustom rubocop-prefer-system-executable nil
+  "Runs rubocop with the system executable even if inside a bundled project."
+  :group 'rubocop
+  :type 'boolean)
+
 (defun rubocop-local-file-name (file-name)
   "Retrieve local filename if FILE-NAME is opened via TRAMP."
   (cond ((tramp-tramp-file-p file-name)
@@ -111,7 +116,7 @@ When NO-ERROR is non-nil returns nil instead of raise an error."
   "Build the full command to be run based on COMMAND and PATH.
 The command will be prefixed with `bundle exec` if RuboCop is bundled."
   (concat
-   (if (rubocop-bundled-p) "bundle exec " "")
+   (if (and (not rubocop-prefer-system-executable) (rubocop-bundled-p)) "bundle exec " "")
    command
    (rubocop-build-requires)
    " "
