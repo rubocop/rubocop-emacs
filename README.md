@@ -4,9 +4,24 @@
 
 A simple Emacs interface for [RuboCop](https://github.com/rubocop-hq/rubocop).
 
+It doesn't aim to compete with general-purpose packages providing lint integration, but rather to provide the simplest way to leverage the essential RuboCop functionality like:
+
+* checking code style
+* auto-formatting code
+* auto-correcting code
+
+Most of the package's commands are meant to be used on demand (when needed), but
+you can also enable automatic code correction on save.
+
 ## Installation
 
 Please, note that the current version of `RuboCop.el` requires `RuboCop` 0.9.0 or later.
+
+### MELPA
+
+If you're an `package.el` user,
+you can install rubocop.el from the [MELPA](http://melpa.org/) and
+[MELPA Stable](http://stable.melpa.org/) repositories.
 
 ### Manual
 
@@ -17,12 +32,6 @@ favour the folder `~/.emacs.d/vendor`:
 (add-to-list 'load-path "~/.emacs.d/vendor")
 (require 'rubocop)
 ```
-
-### MELPA
-
-If you're an Emacs 24 user or you have a recent version of package.el
-you can install rubocop.el from the [MELPA](http://melpa.org/) and
-[MELPA Stable](http://stable.melpa.org/) repositories.
 
 ## Usage
 
@@ -80,7 +89,7 @@ You can change the shell command used by `rubocop-format-*` commands via `ruboco
 
 ## Alternatives
 
-Flycheck and Flymake provide more sophisticated integration with various lint tools, including RuboCop.
+[Flycheck](https://www.flycheck.org) and Flymake (Emacs built-in) provide more sophisticated integration with various lint tools, including RuboCop.
 
 There's also [rubocopfmt](https://github.com/jimeh/rubocopfmt.el), which provides functionality similar to RuboCop.el, but is focused exclusively on the auto-correction side of things.
 
