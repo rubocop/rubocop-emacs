@@ -1,10 +1,10 @@
 ;;; rubocop.el --- An Emacs interface for RuboCop -*- lexical-binding: t -*-
 
-;; Copyright © 2011-2017 Bozhidar Batsov
+;; Copyright © 2011-2021 Bozhidar Batsov
 
 ;; Author: Bozhidar Batsov
 ;; URL: https://github.com/bbatsov/rubocop-emacs
-;; Version: 0.5.0
+;; Version: 0.6.0
 ;; Keywords: project, convenience
 ;; Package-Requires: ((emacs "24"))
 
@@ -30,7 +30,8 @@
 ;;; Commentary:
 ;;
 ;; This library allows the user to easily invoke RuboCop to get feedback
-;; about stylistic issues in Ruby code.
+;; about stylistic issues in Ruby code.  It also gives access to RuboCop
+;; auto-correction functionality.
 ;;
 ;;; Code:
 
