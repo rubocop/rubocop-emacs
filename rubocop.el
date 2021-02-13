@@ -58,6 +58,12 @@
   "The command used to run RuboCop's autocorrection."
   :type 'string)
 
+(defcustom rubocop-format-command
+  "rubocop -x --format emacs"
+  "The command used to run RuboCop's code formatting.
+It's basically auto-correction limited to layout cops."
+  :type 'string)
+
 (defcustom rubocop-extensions
   '()
   "A list of extensions to be loaded by RuboCop."
@@ -154,6 +160,12 @@ Alternatively prompt user for directory."
   (rubocop-autocorrect-directory (rubocop-project-root)))
 
 ;;;###autoload
+(defun rubocop-format-project ()
+  "Run format on current project."
+  (interactive)
+  (rubocop-format-directory (rubocop-project-root)))
+
+;;;###autoload
 (defun rubocop-check-directory (&optional directory)
   "Run check on DIRECTORY if present.
 Alternatively prompt user for directory."
@@ -166,6 +178,12 @@ Alternatively prompt user for directory."
 Alternatively prompt user for directory."
   (interactive)
   (rubocop--dir-command rubocop-autocorrect-command directory))
+
+(defun rubocop-format-directory (&optional directory)
+  "Run format on DIRECTORY if present.
+Alternatively prompt user for directory."
+  (interactive)
+  (rubocop--dir-command rubocop-format-command directory))
 
 (defun rubocop--file-command (command)
   "Run COMMAND on currently visited file."
@@ -193,8 +211,16 @@ Alternatively prompt user for directory."
   (rubocop--file-command rubocop-autocorrect-command))
 
 (defun rubocop-autocorrect-current-file-silent ()
-  (if rubocop-autocorrect-on-save
-      (save-window-excursion (rubocop-autocorrect-current-file))))
+  "This command is used by the minor mode to auto-correct on save.
+See also `rubocop-autocorrect-on-save'."
+  (when rubocop-autocorrect-on-save
+    (save-window-excursion (rubocop-autocorrect-current-file))))
+
+;;;###autoload
+(defun rubocop-format-current-file ()
+  "Run format on current file."
+  (interactive)
+  (rubocop--file-command rubocop-format-command))
 
 (defun rubocop-bundled-p ()
   "Check if RuboCop has been bundled."
@@ -219,6 +245,9 @@ Alternatively prompt user for directory."
       (define-key prefix-map (kbd "P") #'rubocop-autocorrect-project)
       (define-key prefix-map (kbd "D") #'rubocop-autocorrect-directory)
       (define-key prefix-map (kbd "F") #'rubocop-autocorrect-current-file)
+      (define-key prefix-map (kbd "X") #'rubocop-format-project)
+      (define-key prefix-map (kbd "y") #'rubocop-format-directory)
+      (define-key prefix-map (kbd "x") #'rubocop-format-current-file)
 
       (define-key map rubocop-keymap-prefix prefix-map))
     map)

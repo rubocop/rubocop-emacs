@@ -41,6 +41,9 @@ Command                                         | Description                   
 <kbd>M-x rubocop-autocorrect-project</kbd>      | Runs auto-correct on the entire project                 | `C-c C-r P`
 <kbd>M-x rubocop-autocorrect-directory</kbd>    | Prompts for a directory on which to run auto-correct    | `C-c C-r D`
 <kbd>M-x rubocop-autocorrect-current-file</kbd> | Runs auto-correct on the currently visited file.        | `C-c C-r F`
+<kbd>M-x rubocop-format-project</kbd>           | Runs format on the entire project                       | `C-c C-r X`
+<kbd>M-x rubocop-format-directory</kbd>         | Prompts for a directory on which to run format          | `C-c C-r y`
+<kbd>M-x rubocop-format-current-file</kbd>      | Runs format on the currently visited file.              | `C-c C-r x`
 
 
 If you use them often you might want to enable `rubocop-mode` which will added some keybindings for them:
@@ -59,6 +62,13 @@ By default `rubocop-mode` uses the prefix `C-c C-r` for its commands, but you ca
 
 There are a couple of configuration variables that you can use to adjust RuboCop.el's behavior.
 
+The variable `rubocop-autocorrect-on-save` controls whether to auto-correct automatically files on save when
+`rubocop-mode` is active. It's disabled by default, but you can easily change this:
+
+``` emacs-lisp
+(setq rubocop-autocorrect-on-save t)
+```
+
 You can change the shell command used by `rubocop-check-*` commands via `rubocop-check-command`:
 
 ``` emacs-lisp
@@ -66,12 +76,14 @@ You can change the shell command used by `rubocop-check-*` commands via `rubocop
 (setq rubocop-check-command "rubocop --lint --format emacs")
 ```
 
-You can change the shell command used by `rubocop-autocorrect-*` commands via `rubocop-autocorrect-command`
+You can change the shell command used by `rubocop-autocorrect-*` commands via `rubocop-autocorrect-command`:
 
 ``` emacs-lisp
 ;; let's run all auto-corrections possible (by default it's only the safe ones)
 (setq rubocop-autocorrect-command "rubocop -A --format emacs")
 ```
+
+You can change the shell command used by `rubocop-format-*` commands via `rubocop-format-command`.
 
 ## Known issues
 
