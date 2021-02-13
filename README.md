@@ -82,6 +82,8 @@ You can change the shell command used by `rubocop-format-*` commands via `ruboco
 
 Flycheck and Flymake provide more sophisticated integration with various lint tools, including RuboCop.
 
+There's also [rubocopfmt](https://github.com/jimeh/rubocopfmt.el), which provides functionality similar to RuboCop.el, but is focused exclusively on the auto-correction side of things.
+
 ## Known issues
 
 Check out the project's
