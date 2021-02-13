@@ -85,6 +85,10 @@ You can change the shell command used by `rubocop-autocorrect-*` commands via `r
 
 You can change the shell command used by `rubocop-format-*` commands via `rubocop-format-command`.
 
+## Alternatives
+
+Flycheck and Flymake provide more sophisticated integration with various lint tools, including RuboCop.
+
 ## Known issues
 
 Check out the project's
