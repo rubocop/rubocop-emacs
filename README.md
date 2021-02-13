@@ -49,6 +49,24 @@ If you use them often you might want to enable `rubocop-mode` which will added s
 (add-hook 'ruby-mode-hook #'rubocop-mode)
 ```
 
+## Configuration
+
+There are a couple of configuration variables that you can use to adjust RuboCop.el's behavior.
+
+You can change the shell command used by `rubocop-check-*` commands via `rubocop-check-command`:
+
+``` emacs-lisp
+;; let's run only lint cops
+(setq rubocop-check-command "rubocop --lint --format emacs")
+```
+
+You can change the shell command used by `rubocop-autocorrect-*` commands via `rubocop-autocorrect-command`
+
+``` emacs-lisp
+;; let's run all auto-corrections possible (by default it's only the safe ones)
+(setq rubocop-autocorrect-command "rubocop -A --format emacs")
+```
+
 ## Known issues
 
 Check out the project's
