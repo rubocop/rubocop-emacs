@@ -49,6 +49,12 @@ If you use them often you might want to enable `rubocop-mode` which will added s
 (add-hook 'ruby-mode-hook #'rubocop-mode)
 ```
 
+By default `rubocop-mode` uses the prefix `C-c C-r` for its commands, but you can change this if you wish:
+
+``` emacs-lisp
+(setq rubocop-keymap-prefix (kbd "C-c C-x"))
+```
+
 ## Configuration
 
 There are a couple of configuration variables that you can use to adjust RuboCop.el's behavior.
