@@ -24,13 +24,6 @@ If you're an Emacs 24 user or you have a recent version of package.el
 you can install rubocop.el from the [MELPA](http://melpa.org/) and
 [MELPA Stable](http://stable.melpa.org/) repositories.
 
-### Emacs Prelude
-
-`rubocop.el` is naturally part of
-[Emacs Prelude](https://github.com/bbatsov/prelude). If you're a Prelude
-user - `rubocop.el` is already properly configured and ready for
-action.
-
 ## Usage
 
 Command                                         | Description                                             | RuboCop mode binding
