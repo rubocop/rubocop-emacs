@@ -85,6 +85,11 @@ It's basically auto-correction limited to layout cops."
   :group 'rubocop
   :type 'boolean)
 
+(defcustom rubocop-run-in-chroot nil
+  "Runs rubocop inside a chroot via schroot setting the cwd to the project's root."
+  :group 'rubocop
+  :type 'boolean)
+
 (defun rubocop-local-file-name (file-name)
   "Retrieve local filename if FILE-NAME is opened via TRAMP."
   (cond ((tramp-tramp-file-p file-name)
@@ -128,6 +133,7 @@ When NO-ERROR is non-nil returns nil instead of raise an error."
   "Build the full command to be run based on COMMAND and PATH.
 The command will be prefixed with `bundle exec` if RuboCop is bundled."
   (concat
+   (if rubocop-run-in-chroot (format "schroot -d %s -- " (rubocop-project-root)))
    (if (and (not rubocop-prefer-system-executable) (rubocop-bundled-p)) "bundle exec " "")
    command
    (rubocop-build-requires)
