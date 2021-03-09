@@ -71,6 +71,15 @@ The variable `rubocop-autocorrect-on-save` controls whether to auto-correct auto
 (setq rubocop-autocorrect-on-save t)
 ```
 
+Alternatively you can enable only automatic code formatting on save (effectively that's a subset of
+the full auto-correct):
+
+``` emacs-lisp
+(setq rubocop-format-on-save t)
+```
+
+**Note:** Generally you shouldn't enable `rubocop-format-on-save` if `rubocop-autocorrect-on-save` is enabled.
+
 You can change the shell command used by `rubocop-check-*` commands via `rubocop-check-command`:
 
 ``` emacs-lisp

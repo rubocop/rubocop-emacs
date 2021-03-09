@@ -82,6 +82,12 @@ It's basically auto-correction limited to layout cops."
   :type 'boolean
   :package-version '(rubocop . "0.6.0"))
 
+(defcustom rubocop-format-on-save nil
+  "Runs `rubocop-format-current-file' automatically on save."
+  :group 'rubocop
+  :type 'boolean
+  :package-version '(rubocop . "0.7.0"))
+
 (defcustom rubocop-prefer-system-executable nil
   "Runs rubocop with the system executable even if inside a bundled project."
   :group 'rubocop
@@ -232,6 +238,12 @@ See also `rubocop-autocorrect-on-save'."
   (interactive)
   (rubocop--file-command rubocop-format-command))
 
+(defun rubocop-format-current-file-silent ()
+  "This command is used by the minor mode to format on save.
+See also `rubocop-format-on-save' and `rubocop-autocorrect-on-save'."
+  (when (and rubocop-format-on-save (not rubocop-autocorrect-on-save))
+    (save-window-excursion (rubocop-format-current-file))))
+
 (defun rubocop-bundled-p ()
   "Check if RuboCop has been bundled."
   (let ((gemfile-lock (expand-file-name "Gemfile.lock" (rubocop-project-root))))
@@ -269,9 +281,14 @@ See also `rubocop-autocorrect-on-save'."
   :lighter " RuboCop"
   :keymap rubocop-mode-map
   :group 'rubocop
-  (cond
-   (rubocop-mode (add-hook 'before-save-hook 'rubocop-autocorrect-current-file-silent nil t))
-   (t (remove-hook 'before-save-hook 'rubocop-autocorrect-current-file-silent t))))
+  (if rubocop-mode
+      ;; on mode enable
+      (progn
+        (add-hook 'before-save-hook 'rubocop-autocorrect-current-file-silent nil t)
+        (add-hook 'before-save-hook 'rubocop-format-current-file-silent nil t))
+    ;; on mode disable
+    (remove-hook 'before-save-hook 'rubocop-autocorrect-current-file-silent t)
+    (remove-hook 'before-save-hook 'rubocop-format-current-file-silent t)))
 
 (provide 'rubocop)
 
