@@ -3,8 +3,8 @@
 ;; Copyright © 2011-2021 Bozhidar Batsov
 
 ;; Author: Bozhidar Batsov
-;; URL: https://github.com/bbatsov/rubocop-emacs
-;; Version: 0.6.0
+;; URL: https://github.com/rubocop/rubocop-emacs
+;; Version: 0.7.0-snapshot
 ;; Keywords: project, convenience
 ;; Package-Requires: ((emacs "24"))
 
@@ -42,7 +42,7 @@
   :group 'tools
   :group 'convenience
   :prefix "rubocop-"
-  :link '(url-link :tag "GitHub" "https://github.com/bbatsov/rubocop-emacs"))
+  :link '(url-link :tag "GitHub" "https://github.com/rubocop/rubocop-emacs"))
 
 (defcustom rubocop-project-root-files
   '(".projectile" ".git" ".hg" ".bzr" "_darcs" "Gemfile")
@@ -63,7 +63,8 @@
   "rubocop -x --format emacs"
   "The command used to run RuboCop's code formatting.
 It's basically auto-correction limited to layout cops."
-  :type 'string)
+  :type 'string
+  :package-version '(rubocop . "0.6.0"))
 
 (defcustom rubocop-extensions
   '()
@@ -78,7 +79,8 @@ It's basically auto-correction limited to layout cops."
 (defcustom rubocop-autocorrect-on-save nil
   "Runs `rubocop-autocorrect-current-file' automatically on save."
   :group 'rubocop
-  :type 'boolean)
+  :type 'boolean
+  :package-version '(rubocop . "0.6.0"))
 
 (defcustom rubocop-prefer-system-executable nil
   "Runs rubocop with the system executable even if inside a bundled project."
@@ -88,7 +90,8 @@ It's basically auto-correction limited to layout cops."
 (defcustom rubocop-run-in-chroot nil
   "Runs rubocop inside a chroot via schroot setting the cwd to the project's root."
   :group 'rubocop
-  :type 'boolean)
+  :type 'boolean
+  :package-version '(rubocop . "0.7.0"))
 
 (defun rubocop-local-file-name (file-name)
   "Retrieve local filename if FILE-NAME is opened via TRAMP."
