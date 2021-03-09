@@ -87,7 +87,13 @@ You can change the shell command used by `rubocop-autocorrect-*` commands via `r
 
 You can change the shell command used by `rubocop-format-*` commands via `rubocop-format-command`.
 
-## Alternatives
+You can run rubocop inside a chroot via schroot by setting:
+
+``` emacs-lisp
+(setq rubocop-run-in-chroot t)
+```
+
+## alternatives
 
 [Flycheck](https://www.flycheck.org) and Flymake (Emacs built-in) provide more sophisticated integration with various lint tools, including RuboCop.
 
