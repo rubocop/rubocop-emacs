@@ -254,7 +254,7 @@ See also `rubocop-format-on-save' and `rubocop-autocorrect-on-save'."
 
 (defun rubocop-ensure-installed ()
   "Check if RuboCop is installed."
-  (unless (or (executable-find "rubocop") (rubocop-bundled-p))
+  (unless (or (executable-find "rubocop") (rubocop-bundled-p) rubocop-run-in-chroot)
     (error "RuboCop is not installed")))
 
 ;;; Minor mode
