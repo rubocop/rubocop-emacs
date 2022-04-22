@@ -257,6 +257,56 @@ See also `rubocop-format-on-save' and `rubocop-autocorrect-on-save'."
   (unless (or (executable-find "rubocop") (rubocop-bundled-p))
     (error "RuboCop is not installed")))
 
+(defun rubocop--currently-disabled-cops ()
+  (save-excursion
+    (end-of-line)
+    (when (re-search-backward "# ?rubocop:disable \\([A-Z][a-z]+/[A-Za-z, /]+\\)")
+        (--map (s-trim it)
+               (split-string (match-string 1) ",")))))
+
+(defun rubocop--disable-cops (file-name)
+  (let* ((default-directory (or (rubocop-project-root 'no-error) default-directory))
+         (output (shell-command-to-string
+                  (rubocop-build-command rubocop-check-command (rubocop-local-file-name file-name))))
+         (line (line-number-at-pos))
+         (cops (--keep it
+                       (--map
+                        (if (string-match
+                             (format "^.+:%d:[0-9]+: [A-Z]: \\(?:\\[Correctable\\] \\)?\\([A-Z][a-z]+/[A-Za-z]+\\):" line)
+                             it)
+                            (match-string 1 it))
+                        (split-string output "[\n]")))))
+    (if cops
+        (save-excursion
+          (end-of-line)
+          (insert
+           (concat
+            " # rubocop:disable "
+            (string-join (-uniq cops) ", "))))
+      (error "No offences at current line"))))
+
+;;;###autoload
+(defun rubocop-disable-cops ()
+  "Disable cops on the current line."
+  (interactive)
+  (rubocop-ensure-installed)
+  (let ((file-name (buffer-file-name (current-buffer))))
+    (if file-name
+        (asok/rubocop--disable-cops file-name)
+      (error "Buffer is not visiting a file"))))
+
+;;;###autoload
+(defun asok/rubocop-enable-cops ()
+  "Remove the comments which disable the cops on the current line."
+  (interactive)
+  (save-excursion
+    (end-of-line)
+    (if (re-search-backward "[ ]*# ?rubocop:disable +\\(?:[A-Z][a-z]+/[A-Za-z, /]+\\)")
+        (progn
+          (backward-char)
+          (kill-line))
+      (error "No disabled cops at current line"))))
+
 ;;; Minor mode
 (defvar rubocop-mode-map
   (let ((map (make-sparse-keymap)))
