@@ -102,6 +102,12 @@ You can run rubocop inside a chroot via schroot by setting:
 (setq rubocop-run-in-chroot t)
 ```
 
+You can run rubocop with the `--server` flag by setting:
+
+``` emacs-lisp
+(setq rubocop-use-server t)
+```
+
 ## Alternatives
 
 [Flycheck](https://www.flycheck.org) and Flymake (Emacs built-in) provide more sophisticated integration with various lint tools, including RuboCop.

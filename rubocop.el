@@ -99,6 +99,12 @@ It's basically auto-correction limited to layout cops."
   :type 'boolean
   :package-version '(rubocop . "0.7.0"))
 
+(defcustom rubocop-use-server nil
+  "Runs rubocop with the '--server' flag."
+  :group 'rubocop
+  :type 'boolean
+  :package-version '(rubocop . "0.7.0"))
+
 (defun rubocop-local-file-name (file-name)
   "Retrieve local filename if FILE-NAME is opened via TRAMP."
   (cond ((tramp-tramp-file-p file-name)
@@ -145,6 +151,7 @@ The command will be prefixed with `bundle exec` if RuboCop is bundled."
    (if rubocop-run-in-chroot (format "schroot -d %s -- " (rubocop-project-root)))
    (if (and (not rubocop-prefer-system-executable) (rubocop-bundled-p)) "bundle exec " "")
    command
+   (if rubocop-use-server " --server ")
    (rubocop-build-requires)
    " "
    path))
