@@ -50,21 +50,33 @@
   :type '(repeat string))
 
 (defcustom rubocop-check-command
-  "rubocop --format emacs"
+  "--format emacs"
   "The command used to run RuboCop checks."
   :type 'string)
 
+(defcustom rubocop-force-exclusion
+  nil
+  "whether force exclusion for rubocop.yml"
+  :type 'boolean)
+
 (defcustom rubocop-autocorrect-command
-  "rubocop -a --format emacs"
+  "-a --format emacs"
   "The command used to run RuboCop's autocorrection."
   :type 'string)
 
 (defcustom rubocop-format-command
-  "rubocop -x --format emacs"
+  "-x --format emacs"
   "The command used to run RuboCop's code formatting.
 It's basically auto-correction limited to layout cops."
   :type 'string
   :package-version '(rubocop . "0.6.0"))
+
+;; (defcustom rubocop-format-command
+;;   "rubocop -x --format emacs"
+;;   "The command used to run RuboCop's code formatting.
+;; It's basically auto-correction limited to layout cops."
+;;   :type 'string
+;;   :package-version '(rubocop . "0.6.0"))
 
 (defcustom rubocop-extensions
   '()
@@ -138,12 +150,16 @@ When NO-ERROR is non-nil returns nil instead of raise an error."
        " ")
     ""))
 
-(defun rubocop-build-command (command path)
+(defun rubocop-build-command (command path &optional force-exclusion rubocop-file-path)
   "Build the full command to be run based on COMMAND and PATH.
 The command will be prefixed with `bundle exec` if RuboCop is bundled."
   (concat
    (if rubocop-run-in-chroot (format "schroot -d %s -- " (rubocop-project-root)))
    (if (and (not rubocop-prefer-system-executable) (rubocop-bundled-p)) "bundle exec " "")
+   "rubocop"
+   " "
+   (if (and (or force-exclusion rubocop-force-exclusion)  rubocop-file-path)
+       (format "--force-exclusion -c %s " rubocop-file-path))
    command
    (rubocop-build-requires)
    " "
@@ -157,11 +173,13 @@ Alternatively prompt user for directory."
          (or directory
              (read-directory-name "Select directory: "))))
     ;; make sure we run RuboCop from a project's root if the command is executed within a project
-    (let ((default-directory (or (rubocop-project-root 'no-error) default-directory)))
+    (let* ((default-directory (or (rubocop-project-root 'no-error) default-directory))
+           (rubocop-file (expand-file-name ".rubocop.yml" default-directory)))
       (compilation-start
-       (rubocop-build-command command (rubocop-local-file-name directory))
+       (rubocop-build-command command (rubocop-local-file-name directory) rubocop-force-exclusion rubocop-file)
        'compilation-mode
-       (lambda (arg) (message arg) (rubocop-buffer-name directory))))))
+       (lambda (arg) (message arg) (rubocop-buffer-name directory)))
+      )))
 
 ;;;###autoload
 (defun rubocop-check-project ()
@@ -188,6 +206,7 @@ Alternatively prompt user for directory."
   (interactive)
   (rubocop--dir-command rubocop-check-command directory))
 
+
 ;;;###autoload
 (defun rubocop-autocorrect-directory (&optional directory)
   "Run autocorrect on DIRECTORY if present.
@@ -207,9 +226,11 @@ Alternatively prompt user for directory."
   (let ((file-name (buffer-file-name (current-buffer))))
     (if file-name
         ;; make sure we run RuboCop from a project's root if the command is executed within a project
-        (let ((default-directory (or (rubocop-project-root 'no-error) default-directory)))
+        (let* ((default-directory (or (rubocop-project-root 'no-error) default-directory))
+               (rubocop-file (expand-file-name ".rubocop.yml" default-directory)))
+
           (compilation-start
-           (rubocop-build-command command (rubocop-local-file-name file-name))
+           (rubocop-build-command command (rubocop-local-file-name file-name)  rubocop-force-exclusion rubocop-file)
            'compilation-mode
            (lambda (_arg) (rubocop-buffer-name file-name))))
       (error "Buffer is not visiting a file"))))
